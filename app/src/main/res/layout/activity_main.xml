@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:orientation="vertical"
     android:id="@+id/main">
 
     <!-- Górny pasek z przyciskami Ustawienia i Lista Emoji -->
-    <include layout="@layout/top_bar"
+    <include
+        layout="@layout/tb_top_bar"
         android:id="@+id/topBar"/>
 
+    <!-- GridLayout for the schedule -->
+    <include
+        layout="@layout/cc_schedule_grid"
+        android:id="@+id/center_content"
+        />
 
-    <include layout="@layout/shedule"
-        android:id="@+id/scheduleGrid"
-    />
-    <include layout="@layout/bottom_bar"
-        android:id="@+id/navigationBar"
-    />
-
-
-    <!-- Przyciski funkcjonalne -->
-    <include layout="@layout/functional_buttons"
-    />
+    <!-- Dolny panel -->
 
 
-    <include layout="@layout/emoji_bar"
+    <!-- Dolne menu nawigacyjne -->
+    <include
+        layout="@layout/bp_bottom_panel"
     />
 
-
-
-</RelativeLayout>
+</LinearLayout>

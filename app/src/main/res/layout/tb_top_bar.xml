@@ -1,14 +1,11 @@
-<!-- Górny pasek z przyciskami Ustawienia i Lista Emoji -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center"
     android:padding="8dp">
-    <!-- Zawartość górnego paska -->
+
     <Button
         android:id="@+id/settingsButton"
         android:layout_width="0dp"
