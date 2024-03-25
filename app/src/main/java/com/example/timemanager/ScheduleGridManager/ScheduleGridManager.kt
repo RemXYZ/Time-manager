@@ -6,10 +6,6 @@ import android.view.Gravity
 import android.widget.GridLayout
 import android.widget.TextView
 
-import java.time.format.DateTimeFormatter
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 import java.time.LocalDate
 
@@ -20,19 +16,17 @@ import com.example.timemanager.ScheduleGridManager.*
 class ScheduleGridManager(private val context: Context, private val gridLayout: GridLayout) {
     private val currentColumnNum: Int = 4
     private val currentDayNum: Int = 3
-    private var todayEl: DayColumn? = null
-    private var yesterdayEl: DayColumn? = null
-    private var tomorrowEl: DayColumn? = null
-    private val dayColumns = mutableListOf<DayColumn>()
-    private val calendar = Calendar.getInstance()
-    private var currentTime = 0
 
 
     fun getViewColumns() {
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+
         val today = LocalDate.now()
-        val yesterday = today.minus(1, ChronoUnit.DAYS)
-        val tomorrow = today.plus(1, ChronoUnit.DAYS)
+        val yesterday = today.minusDays(1)
+        val tomorrow = today.plusDays(1)
+
+//        val now = LocalDateTime.now()
+//        val yesterday = now.minusDays(1)
+//        val tomorrow = now.plusDays(1)
 
         println("Yesterday: $yesterday")
         println("Today: $today")
@@ -72,13 +66,13 @@ class ScheduleGridManager(private val context: Context, private val gridLayout: 
 
 
         getViewColumns()
-        columnTitles[1] = yesterdayEl?.getFormattedDate().toString()
-        columnTitles[2] = todayEl?.getFormattedDate().toString()
-        columnTitles[3] = tomorrowEl?.getFormattedDate().toString()
+//        columnTitles[1] = yesterdayEl?.getFormattedDate().toString()
+//        columnTitles[2] = todayEl?.getFormattedDate().toString()
+//        columnTitles[3] = tomorrowEl?.getFormattedDate().toString()
+//
+//        for(column in columnTitles) {
 
-        for(column in columnTitles) {
-
-        }
+//        }
 
 
 
@@ -142,71 +136,4 @@ class ScheduleGridManager(private val context: Context, private val gridLayout: 
 }
 
 
-
-
-//class ScheduleGridManager(private val context: Context, private val gridLayout: GridLayout) {
-//
-//    fun generateScheduleGrid() {
-//        val timeSlots: List<String> = (0..23).map { hour -> String.format("%02d:00", hour) }
-//        val dates: List<String> = listOf("Yesterday", "Today", "Tomorrow")
-//
-//        // Set the row and column counts for the grid
-//        gridLayout.rowCount = timeSlots.size + 1
-//        gridLayout.columnCount = 4
-//
-//        // Create and add the date headers to the grid
-//        dates.forEachIndexed { colIndex, date ->
-//            val dateView: TextView = TextView(context).apply {
-//                text = date
-//                gravity = Gravity.CENTER
-//                textSize = 16f // You can adjust this as needed
-//                setBackgroundColor(Color.LTGRAY) // Set background color for headers
-//            }
-//            val dateParams: GridLayout.LayoutParams = GridLayout.LayoutParams(
-//                GridLayout.spec(0),
-//                GridLayout.spec(colIndex + 1)
-//            ).apply {
-//                width = 0 // This will be changed by weight
-//                height = GridLayout.LayoutParams.WRAP_CONTENT
-//                setMargins(8, 0, 8, 0) // Apply margins as needed
-//            }
-//            gridLayout.addView(dateView, dateParams)
-//        }
-//
-//        // Populate the grid with time slots
-//        timeSlots.forEachIndexed { rowIndex, time ->
-//            // Time headers
-//            val timeView: TextView = TextView(context).apply {
-//                text = time
-//                gravity = Gravity.CENTER_VERTICAL or Gravity.END
-//                textSize = 16f
-//                setBackgroundColor(Color.LTGRAY) // Set background color for time column
-//            }
-//            val timeParams: GridLayout.LayoutParams = GridLayout.LayoutParams(
-//                GridLayout.spec(rowIndex + 1),
-//                GridLayout.spec(0)
-//            ).apply {
-//                width = GridLayout.LayoutParams.WRAP_CONTENT
-//                height = 200 // Adjust height to your preference
-//                setMargins(8, 0, 8, 0)
-//            }
-//            gridLayout.addView(timeView, timeParams)
-//
-//            // Cells for each date
-//            for (colIndex in 1..3) {
-//                val cellView: FrameLayout = FrameLayout(context).apply {
-//                    setBackgroundColor(Color.DKGRAY) // Change cell background color here
-//                }
-//                val cellParams: GridLayout.LayoutParams = GridLayout.LayoutParams(
-//                    GridLayout.spec(rowIndex + 1),
-//                    GridLayout.spec(colIndex)
-//                ).apply {
-//                    width = GridLayout.LayoutParams.MATCH_PARENT
-//                    height = 200 // Match the height of the time slots
-//                    setMargins(8, 8, 8, 8)
-//                }
-//                gridLayout.addView(cellView, cellParams)
-//            }
-//        }
-//    }
 
