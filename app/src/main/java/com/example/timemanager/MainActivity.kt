@@ -1,46 +1,68 @@
 package com.example.timemanager
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.GridLayout
-import androidx.activity.enableEdgeToEdge
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.timemanager.simple_calendar_java.CalendarAdapter
+import com.example.timemanager.simple_calendar_java.CalendarUtils
+import com.example.timemanager.simple_calendar_java.CalendarUtils.daysInMonthArray
+import com.example.timemanager.simple_calendar_java.CalendarUtils.monthYearFromDate
+import com.example.timemanager.simple_calendar_java.WeekViewActivity
+import java.time.LocalDate
+import java.util.ArrayList
 
-
-import com.example.timemanager.ScheduleGridManager.ScheduleGridManager
-import com.example.timemanager.databinding.ActivityMainBinding
-
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
+    private lateinit var monthYearText: TextView
+    private lateinit var calendarRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-//        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)
+        initWidgets()
+        CalendarUtils.selectedDate = LocalDate.now()
+        setMonthView()
+    }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private fun initWidgets() {
+        calendarRecyclerView = findViewById(R.id.calendarRecyclerView)
+        monthYearText = findViewById(R.id.monthYearTV)
+    }
 
-//        setContentView(R.layout.justButton)
-        val justBut = findViewById<Button>(R.id.justButton)
-        justBut.text = "hello"
+    private fun setMonthView() {
+        monthYearText.text = monthYearFromDate(CalendarUtils.selectedDate)
+        val daysInMonth: ArrayList<LocalDate> = daysInMonthArray()
+        val calendarAdapter =
+            CalendarAdapter(
+                daysInMonth,
+                this
+            )
+        val layoutManager = GridLayoutManager(applicationContext, 7)
+        calendarRecyclerView.layoutManager = layoutManager
+        calendarRecyclerView.adapter = calendarAdapter
+    }
 
-        binding.justButton2.setOnClickListener{
-            binding.justButton2.text = "justButton2 ahaha"
+    fun previousMonthAction(view: View) {
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1)
+        setMonthView()
+    }
+
+    fun nextMonthAction(view: View) {
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1)
+        setMonthView()
+    }
+
+    override fun onItemClick(position: Int, date: LocalDate) {
+        date.let {
+            CalendarUtils.selectedDate = it
+            setMonthView()
         }
+    }
 
-
-        // Wyrownuje content wzgledem przyciskow, kamery i td.
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        val scheduleGrid = findViewById<GridLayout>(R.id.scheduleGrid)
-        val scheduleGridManager = ScheduleGridManager(this, scheduleGrid)
-        scheduleGridManager.generateScheduleGrid()
+    fun weeklyAction(view: View) {
+        startActivity(Intent(this, WeekViewActivity::class.java))
     }
 }

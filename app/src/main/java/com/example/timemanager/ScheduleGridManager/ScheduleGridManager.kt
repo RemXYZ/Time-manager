@@ -7,65 +7,38 @@ import android.widget.GridLayout
 import android.widget.TextView
 
 
-import java.time.LocalDate
-
-
-import com.example.timemanager.ScheduleGridManager.*
+import java.time.LocalDateTime
 
 
 class ScheduleGridManager(private val context: Context, private val gridLayout: GridLayout) {
     private val currentColumnNum: Int = 4
     private val currentDayNum: Int = 3
+    private val DayNumShifter: Int = 1;
+    private val dayColumns: MutableList<DayColumn> = mutableListOf()
+    private val columnTitles: MutableList<String> = mutableListOf("Time")
+
+    fun generateDayColumns() {
 
 
-    fun getViewColumns() {
+        val now: LocalDateTime = LocalDateTime.now()
+        for (i in 0 - DayNumShifter .. currentDayNum-1- DayNumShifter ){
+//            println("What? " + i)
+            val day: DayColumn = DayColumn(context, gridLayout);
+            dayColumns.add(day);
+            day.setDiffDate(i)
 
-        val today = LocalDate.now()
-        val yesterday = today.minusDays(1)
-        val tomorrow = today.plusDays(1)
+            columnTitles.add(day.getFormattedWeekDate())
+        }
 
-//        val now = LocalDateTime.now()
-//        val yesterday = now.minusDays(1)
-//        val tomorrow = now.plusDays(1)
-
-        println("Yesterday: $yesterday")
-        println("Today: $today")
-        println("Tomorrow: $tomorrow")
-
-//        for (date in currentColumnNum-1 downTo 0) {
-//
-//            // Musze po prostu dodac licznik daty do objektu i tam niech tworzy text
-//            // I tam beda sie znajdowac inne encje, takie jak wlasnie emoji
-//            dayColumns.add(DayColumn(calendar, currentTime))
-//
-//        }
-//// Today's date
-//        var todayEl: String = dateFormat.format(calendar.time)
-//        todayEl = DayColumn(calendar)
-////        println("Current time: $currentTime")
-//
-//// Yesterday's date
-//        calendar.add(Calendar.DAY_OF_YEAR, --currentTime)
-//        var yesterdayDate = dateFormat.format(calendar.time)
-//        todayEl = DayColumn(calendar)
-//
-//        currentTime+=3
-//// Tomorrow's date
-//        calendar.add(Calendar.DAY_OF_YEAR, currentTime)
-//        var tomorrowDate = dateFormat.format(calendar.time)
-
-
-
-//        println("Current time: $currentTime")
     }
 
     fun generateScheduleGrid() {
         // Define the titles for your columns
-        val columnTitles = mutableListOf("Time", "Yesterday", "Today", "Tomorrow")
 
 
 
-        getViewColumns()
+
+        generateDayColumns()
 //        columnTitles[1] = yesterdayEl?.getFormattedDate().toString()
 //        columnTitles[2] = todayEl?.getFormattedDate().toString()
 //        columnTitles[3] = tomorrowEl?.getFormattedDate().toString()
@@ -83,21 +56,23 @@ class ScheduleGridManager(private val context: Context, private val gridLayout: 
         gridLayout.useDefaultMargins = true
 
         // Add titles to the grid
-        addTitles(columnTitles)
+        addTitles()
+        displayDayColumns();
 
-        // Add time slots and events for each hour
-        for (hour in 0..23) {
-            val time = String.format("%02d:00", hour)
-            addHourCells(hour + 1, time) // Increment row index by 1 to account for the title row
-            addEventCells(hour + 1) // Increment row index by 1 to account for the title row
-        }
-
-        // Add an additional row for 24:00
-        addHourCells(24, "24:00")
-        addEventCells(24)
     }
 
-    private fun addTitles(titles: List<String>) {
+    fun displayDayColumns() {
+        // Logic to display the day columns, potentially in a GridLayout or similar view structure
+        dayColumns.forEach { dayColumn ->
+            // Here you would create views for each day column and add them to your layout
+            // Each DayColumn could also be responsible for rendering its own ScheduleCells
+        }
+    }
+
+
+
+    private fun addTitles() {
+        var titles: List<String> = columnTitles;
         titles.forEachIndexed { index, title ->
             val titleView = TextView(context).apply {
                 text = title
@@ -119,20 +94,7 @@ class ScheduleGridManager(private val context: Context, private val gridLayout: 
     }
 
 
-    private fun addHourCells(rowIndex: Int, time: String) {
-        val scheduleCell = ScheduleCell(context)
-        val timeCell = scheduleCell.createTimeCell(time, rowIndex)
-        gridLayout.addView(timeCell)
-    }
 
-    private fun addEventCells(rowIndex: Int) {
-        val scheduleCell = ScheduleCell(context)
-        val colors = listOf(Color.LTGRAY, Color.GRAY, Color.DKGRAY)
-        for (colIndex in 1..3) {
-            val eventCell = scheduleCell.createEventCell(colors[colIndex - 1], rowIndex, colIndex)
-            gridLayout.addView(eventCell)
-        }
-    }
 }
 
 
