@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendarDailyView"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".simple_calendar_java.DailyCalendarActivity">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +23,7 @@
             android:textColor="@color/blue"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="previousDayAction"
+            android:id= "@+id/previousDayButton"
             android:textSize="20sp"/>
 
         <TextView
@@ -43,7 +44,7 @@
             android:textColor="@color/blue"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="nextDayAction"
+            android:id="@+id/nextDayButton"
             android:textSize="20sp"/>
 
     </LinearLayout>
@@ -65,7 +66,7 @@
         android:textColor="@color/blue"
         android:background="@null"
         android:textStyle="bold"
-        android:onClick="newEventAction"
+        android:id="@+id/newEventButton"
         android:layout_gravity="center"
         android:textSize="20sp"/>
 

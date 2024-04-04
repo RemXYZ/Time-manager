@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:fillViewport="true">
+
+    <GridLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scheduleGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:columnCount="3"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Loop through and add rows for each hour and columns for each date -->
+        <!-- We need to programmatically create these views in Kotlin to have dynamic content -->
+
+        <!-- Static example for demonstration purposes -->
+        <!-- Column headers for dates -->
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_columnWeight="1"-->
+<!--            android:text="09.03.2024"-->
+<!--            android:gravity="center"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_columnWeight="1"-->
+<!--            android:text="11.03.2024"-->
+<!--            android:gravity="center"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_columnWeight="1"-->
+<!--            android:text="12.03.2024"-->
+<!--            android:gravity="center"/>-->
+
+        <!-- Rows for hours (example for 9:00 AM) -->
+        <!-- You would replicate this structure for each hour -->
+        <!-- Use a loop in Kotlin to add these views programmatically for all hours -->
+<!--        <FrameLayout-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="64dp"-->
+<!--            android:layout_columnWeight="1"-->
+<!--            android:background="@android:color/darker_gray">-->
+<!--            <View-->
+<!--                android:layout_width="1dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@android:color/black"-->
+<!--                android:layout_gravity="center_vertical"/>-->
+<!--        </FrameLayout>-->
+<!--        <FrameLayout-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="64dp"-->
+<!--            android:layout_columnWeight="1"-->
+<!--            android:background="@android:color/darker_gray">-->
+<!--            &lt;!&ndash; Additional content like events will be placed here &ndash;&gt;-->
+<!--        </FrameLayout>-->
+<!--        <FrameLayout-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="64dp"-->
+<!--            android:layout_columnWeight="1"-->
+<!--            android:background="@android:color/darker_gray">-->
+<!--            &lt;!&ndash; Additional content like events will be placed here &ndash;&gt;-->
+<!--        </FrameLayout>-->
+
+
+
+    </GridLayout>
+</ScrollView>

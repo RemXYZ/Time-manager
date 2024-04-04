@@ -2,47 +2,81 @@ package com.example.timemanager.simple_calendar_java;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.timemanager.R;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DailyCalendarActivity extends AppCompatActivity
+public class CalendarDailyManager
 {
 
     private TextView monthDayText;
     private TextView dayOfWeekTV;
     private ListView hourListView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daily_calendar);
+    private final View dailyView;
+    private final View mainView;
+    private final Context context;
+
+
+    public CalendarDailyManager(Context context, View mainView) {
+        dailyView = mainView.findViewById(R.id.calendarDailyView);
+        this.mainView = mainView;
+        this.context = context;
         initWidgets();
+        CalendarUtils.selectedDate = LocalDate.now();
+        setDayView();
     }
 
     private void initWidgets()
     {
-        monthDayText = findViewById(R.id.monthDayText);
-        dayOfWeekTV = findViewById(R.id.dayOfWeekTV);
-        hourListView = findViewById(R.id.hourListView);
+        Button nextDayButton = mainView.findViewById(R.id.nextDayButton);
+        Button previousDayButton = mainView.findViewById(R.id.previousDayButton);
+        Button newEventButton = mainView.findViewById(R.id.newEventButton);
+
+        nextDayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextDayAction(v);
+            }
+        });
+
+        previousDayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                previousDayAction(v);
+            }
+        });
+
+        newEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newEventAction(v);
+            }
+        });
+        monthDayText = dailyView.findViewById(R.id.monthDayText);
+        dayOfWeekTV = dailyView.findViewById(R.id.dayOfWeekTV);
+        hourListView = dailyView.findViewById(R.id.hourListView);
+
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        setDayView();
-    }
+//    @Override
+//    protected void onResume()
+//    {
+//        super.onResume();
+//        setDayView();
+//    }
 
     private void setDayView()
     {
@@ -54,7 +88,7 @@ public class DailyCalendarActivity extends AppCompatActivity
 
     private void setHourAdapter()
     {
-        HourAdapter hourAdapter = new HourAdapter(getApplicationContext(), hourEventList());
+        HourAdapter hourAdapter = new HourAdapter(this.context, hourEventList());
         hourListView.setAdapter(hourAdapter);
     }
 
@@ -87,6 +121,6 @@ public class DailyCalendarActivity extends AppCompatActivity
 
     public void newEventAction(View view)
     {
-        startActivity(new Intent(this, EventEditActivity.class));
+        context.startActivity(new Intent(context, EventEditActivity.class));
     }
 }
