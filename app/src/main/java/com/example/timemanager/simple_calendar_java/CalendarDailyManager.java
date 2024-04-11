@@ -41,6 +41,14 @@ public class CalendarDailyManager
 
     private void initWidgets()
     {
+
+        monthDayText = dailyView.findViewById(R.id.monthDayText);
+        dayOfWeekTV = dailyView.findViewById(R.id.dayOfWeekTV);
+        hourListView = dailyView.findViewById(R.id.hourListView);
+        bindOnClickListeners();
+    }
+
+    private void bindOnClickListeners(){
         Button nextDayButton = mainView.findViewById(R.id.nextDayButton);
         Button previousDayButton = mainView.findViewById(R.id.previousDayButton);
         Button newEventButton = mainView.findViewById(R.id.newEventButton);
@@ -65,18 +73,7 @@ public class CalendarDailyManager
                 newEventAction(v);
             }
         });
-        monthDayText = dailyView.findViewById(R.id.monthDayText);
-        dayOfWeekTV = dailyView.findViewById(R.id.dayOfWeekTV);
-        hourListView = dailyView.findViewById(R.id.hourListView);
-
     }
-
-//    @Override
-//    protected void onResume()
-//    {
-//        super.onResume();
-//        setDayView();
-//    }
 
     private void setDayView()
     {

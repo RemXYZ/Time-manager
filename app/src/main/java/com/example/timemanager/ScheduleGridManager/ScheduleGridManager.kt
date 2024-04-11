@@ -3,20 +3,29 @@ package com.example.timemanager.ScheduleGridManager
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
+import android.view.View
 import android.widget.GridLayout
 import android.widget.TextView
+import com.example.timemanager.R
 
 
 import java.time.LocalDateTime
 
 
-class ScheduleGridManager(private val context: Context, private val gridLayout: GridLayout) {
+class ScheduleGridManager() {
+    private lateinit var context: Context;
+    private lateinit var mainView: View ;
+    private lateinit var gridLayout: GridLayout;
     private val currentColumnNum: Int = 4
     private val currentDayNum: Int = 3
     private val DayNumShifter: Int = 1;
     private val dayColumns: MutableList<DayColumn> = mutableListOf()
     private val columnTitles: MutableList<String> = mutableListOf("Time")
-
+    constructor(context: Context, mainView : View) : this() {
+        this.context = context
+        this.mainView = mainView
+        this.gridLayout = mainView.findViewById(R.id.scheduleGrid)
+    }
     fun generateDayColumns() {
 
 
