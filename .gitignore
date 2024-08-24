@@ -1,10 +1,28 @@
-*.iml
-.gradle
+# Ignore .idea folder (Android Studio settings)
+.idea/
+
+# Ignore local.properties (contains local paths)
+local.properties
 /local.properties
-/.idea/
+
+# Ignore Gradle cache and other build-related files
+.gradle/
+build/
+
+# Ignore build output folders
+*/build/
+
+# Ignore other generated files
+*.iml
+*.log
+
+# Ignore keystore files (if any are used for signing)
+*.jks
+*.keystore
+
+
 .DS_Store
-/build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+.env
