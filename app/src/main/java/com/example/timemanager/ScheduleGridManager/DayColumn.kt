@@ -26,6 +26,10 @@ class DayColumn(private val context: Context, private val gridLayout: GridLayout
 //    init{
 //
 //    }
+//    init {
+//        recyclerView.layoutManager = LinearLayoutManager(context)
+//        recyclerView.adapter = ScheduleCellAdapter(context)
+//    }
 
     fun addEvent(event: Event) {
 //        val startHour = event.startTime.hour

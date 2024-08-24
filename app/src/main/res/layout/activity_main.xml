@@ -15,7 +15,7 @@
         android:layout_height="515dp"
         android:orientation="vertical">
         <include
-            layout="@layout/cc_schedule_grid"/>
+            layout="@layout/content_calendar_three_day"/>
     </LinearLayout>
 
     <include

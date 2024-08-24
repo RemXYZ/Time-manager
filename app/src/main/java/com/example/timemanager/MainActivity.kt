@@ -27,7 +27,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val main: View = findViewById(R.id.main)
 //        customCalendarDaily = CalendarDailyManager(this, main)
-        ScheduleGridManager(this, main).generateScheduleGrid()
+//        ScheduleGridManager(this, main).generateScheduleGrid()
+        val recyclerView = findViewById<RecyclerView>(R.id.scheduleRecyclerView)
+        ScheduleGridManager(recyclerView, this)
+
     }
+
 
 }

@@ -1,10 +1,7 @@
 package com.example.timemanager.simple_calendar_java;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -18,7 +15,7 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class CalendarDailyManager
+public class CalendarDailyAdapter
 {
 
     private TextView monthDayText;
@@ -30,7 +27,7 @@ public class CalendarDailyManager
     private final Context context;
 
 
-    public CalendarDailyManager(Context context, View mainView) {
+    public CalendarDailyAdapter(Context context, View mainView) {
         dailyView = mainView.findViewById(R.id.calendarDailyView);
         this.mainView = mainView;
         this.context = context;

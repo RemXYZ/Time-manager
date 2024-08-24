@@ -1,18 +1,27 @@
 package com.example.timemanager.ScheduleGridManager
 
+import CalendarThreeDayAdapter
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.widget.GridLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.timemanager.R
 
 
 import java.time.LocalDateTime
 
 
-class ScheduleGridManager() {
+class ScheduleGridManager (private val recyclerView: RecyclerView, context: Context) {
+
+    init {
+        recyclerView.layoutManager = GridLayoutManager(context, 3) // 3 columns grid
+        recyclerView.adapter = CalendarThreeDayAdapter(context)
+    }
+
     private lateinit var context: Context;
     private lateinit var mainView: View ;
     private lateinit var gridLayout: GridLayout;
@@ -21,11 +30,11 @@ class ScheduleGridManager() {
     private val DayNumShifter: Int = 1;
     private val dayColumns: MutableList<DayColumn> = mutableListOf()
     private val columnTitles: MutableList<String> = mutableListOf("Time")
-    constructor(context: Context, mainView : View) : this() {
-        this.context = context
-        this.mainView = mainView
-        this.gridLayout = mainView.findViewById(R.id.scheduleGrid)
-    }
+//    constructor(context: Context, mainView : View) : this() {
+//        this.context = context
+//        this.mainView = mainView
+//        this.gridLayout = mainView.findViewById(R.id.scheduleGrid)
+//    }
     fun generateDayColumns() {
 
 
