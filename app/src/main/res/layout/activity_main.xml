@@ -1,40 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- activity_main.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/main"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="515dp"
-        android:orientation="vertical">
-        <include
-            layout="@layout/content_calendar_three_day"/>
-    </LinearLayout>
-
-    <include
-        layout="@layout/bp_bottom_panel"
-    />
 
 
-
-</LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
+</androidx.constraintlayout.widget.ConstraintLayout>
