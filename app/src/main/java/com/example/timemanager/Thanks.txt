@@ -1,0 +1,4 @@
+Thanks to danielrampelt for blog
+https://danielrampelt.com/blog/jetpack-compose-custom-schedule-layout-part-1/
+I was also using part of his code from:
+https://github.com/drampelt/WeekSchedule/blob/e27751954bcab7bff70b7f734f6b16761f45e122/app/src/main/java/com/danielrampelt/schedule/ui/theme/Type.kt

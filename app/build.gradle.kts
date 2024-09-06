@@ -67,10 +67,8 @@ dependencies {
 //    implementation("com.github.kizitonwose:CalendarView:2.1.1")
 //
 //    // The compose calendar library for Android
-//    implementation("com.kizitonwose.calendar:compose:2.1.1")
     implementation("com.kizitonwose.calendar:core:2.4.0")
     implementation("com.kizitonwose.calendar:compose:2.4.0")
-
 
     val composeVersion = "1.5.1"
 
