@@ -1,4 +1,5 @@
 // Portions of this file are derived from code licensed under the MIT License.
+// https://github.com/drampelt/WeekSchedule
 // Copyright (c) 2021 Daniel Rampelt
 // See `THIRD-PARTY-NOTICES.txt` for the full license text.
 package com.example.timemanager
