@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,39 +25,44 @@ import java.time.temporal.ChronoUnit
 
 @Composable
 fun MultiDaySchedule(
-    events: List<Event>,
+    events: Map<LocalDate, SnapshotStateList<Event>>,
     modifier: Modifier = Modifier,
     eventContent: @Composable (event: Event) -> Unit = { event -> BasicEvent(event = event) },
-    numDays: Int, // Number of days to display
+    minDate: LocalDate = events.values.flatten().minByOrNull(Event::start)!!.start.toLocalDate(),
+    maxDate: LocalDate = events.values.flatten().maxByOrNull(Event::end)!!.end.toLocalDate(),
     dayWidth: Dp,
     hourHeight: Dp,
     verticalScrollState: ScrollState
 ) {
-    val minDate = events.minByOrNull(Event::start)!!.start.toLocalDate()
 
     // Sort events by start time
-    val sortedEvents = events.sortedBy { it.start }
+//    val sortedEvents = events.sortedBy { it.start }
+//
+//    // Detect overlapping events
+//    val overlappedGroups = mutableListOf<List<Event>>()
+//    var currentGroup = mutableListOf<Event>()
+//
+//    sortedEvents.forEach { event ->
+//        if (currentGroup.isEmpty() || !isOverlapping(currentGroup.last(), event)) {
+//            if (currentGroup.isNotEmpty()) overlappedGroups.add(currentGroup)
+//            currentGroup = mutableListOf(event)
+//        } else {
+//            currentGroup.add(event)
+//        }
+//    }
+//    if (currentGroup.isNotEmpty()) overlappedGroups.add(currentGroup)
 
-    // Detect overlapping events
-    val overlappedGroups = mutableListOf<List<Event>>()
-    var currentGroup = mutableListOf<Event>()
-
-    sortedEvents.forEach { event ->
-        if (currentGroup.isEmpty() || !isOverlapping(currentGroup.last(), event)) {
-            if (currentGroup.isNotEmpty()) overlappedGroups.add(currentGroup)
-            currentGroup = mutableListOf(event)
-        } else {
-            currentGroup.add(event)
-        }
-    }
-    if (currentGroup.isNotEmpty()) overlappedGroups.add(currentGroup)
+    val days = generateSequence(minDate) { it.plusDays(1) }
+        .takeWhile { it <= maxDate }
+        .toList()
 
     Box(modifier = modifier.fillMaxWidth()) {
         LazyRow {
-            items((0 until numDays).toList()) { dayIndex ->
+            items(days, key = { it }) { day ->
+                val dayEvents = events[day] ?: SnapshotStateList()
                 DaySchedule(
-                    day = minDate.plusDays(dayIndex.toLong()),
-                    events = events,
+                    day = day,
+                    events = dayEvents,
                     hourHeight = hourHeight,
                     dayWidth = dayWidth,
                     eventContent = eventContent,
@@ -69,10 +76,12 @@ fun MultiDaySchedule(
 @Preview(showBackground = true)
 @Composable
 fun MultiDaySchedulePreview() {
+    val eventsByDay = SampleEvents.sampleEventsByDay
 
-    // Create a mutable copy of the sample events
-    val sEvents = SampleEvents.sampleEvents.toMutableList()
+
+//    // Create a mutable copy of the sample events
+//    val sEvents = SampleEvents.sampleEvents.toMutableList()
     WeekScheduleTheme {
-        MultiDaySchedule(sEvents, numDays = 3, dayWidth = 100.dp, hourHeight = 64.dp, verticalScrollState = ScrollState(0))
+        MultiDaySchedule(eventsByDay, dayWidth = 100.dp, hourHeight = 64.dp, verticalScrollState = ScrollState(0))
     }
 }

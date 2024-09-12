@@ -46,79 +46,20 @@ import kotlin.math.roundToInt
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.ScrollState
-
-//
-//@Composable
-//fun Schedule(
-//    events: List<Event>,
-//    modifier: Modifier = Modifier,
-//    eventContent: @Composable (event: Event) -> Unit = { BasicEvent(event = it) },
-//    dayHeader: @Composable (day: LocalDate) -> Unit = { BasicDayHeader(day = it) },
-//    minDate: LocalDate = events.minByOrNull(Event::start)!!.start.toLocalDate(),
-//    maxDate: LocalDate = events.maxByOrNull(Event::end)!!.end.toLocalDate(),
-//) {
-//
-//    var sidebarWidth by remember { mutableStateOf(0) }
-//
-//    val screenWidth = LocalConfiguration.current.screenWidthDp
-//    val numDays = 3
-//    val hourHeight = 64.dp
-//    val verticalScrollState = rememberScrollState()
-//    val horizontalScrollState = rememberScrollState()
-//
-//    val dayWidth = remember(sidebarWidth) {
-//        ((screenWidth - sidebarWidth) / 3) // Divide remaining width by 3
-//    }
-////    var dayWidthDp = ((screenWidth-sidebarWidth)/3).dp
-//    var dayWidthDp = with(LocalDensity.current) { ((LocalConfiguration.current.screenWidthDp.dp - sidebarWidth.toDp())/3) }
-////    dayWidthDp = 265.dp
-////    val dayWidth = 256.dp
-//    Column(modifier = modifier) {
-//        ScheduleHeader(
-//            minDate = minDate,
-//            maxDate = maxDate,
-//            dayWidth = dayWidthDp,
-//            dayHeader = dayHeader,
-//            modifier = Modifier
-//                .padding(start = with(LocalDensity.current) { sidebarWidth.toDp() })
-//                .horizontalScroll(horizontalScrollState)
-//        )
-//        Row(modifier = Modifier.weight(1f)) {
-//            ScheduleSidebar(
-//                hourHeight = hourHeight,
-//                modifier = Modifier
-//                    .verticalScroll(verticalScrollState)
-//                    .onGloballyPositioned { sidebarWidth = it.size.width }
-//            )
-//            BasicSchedule(
-//                events = events,
-//                eventContent = eventContent,
-//                minDate = minDate,
-//                maxDate = maxDate,
-//                numDays = numDays,
-//                dayWidth = dayWidthDp,
-//                hourHeight = hourHeight,
-//                modifier = Modifier
-//                    .weight(1f)
-//                    .verticalScroll(verticalScrollState)
-//                    .horizontalScroll(horizontalScrollState)
-//            )
-//        }
-//    }
-//}
+import androidx.compose.runtime.snapshots.SnapshotStateList
 
 
 @Composable
 fun Schedule(
-    events: List<Event>,
+    events: Map<LocalDate, SnapshotStateList<Event>>,
     modifier: Modifier = Modifier,
     eventContent: @Composable (event: Event) -> Unit = { BasicEvent(event = it) },
     dayHeader: @Composable (day: LocalDate) -> Unit = { BasicDayHeader(day = it) },
-    minDate: LocalDate = events.minByOrNull(Event::start)!!.start.toLocalDate(),
-    maxDate: LocalDate = events.maxByOrNull(Event::end)!!.end.toLocalDate(),
+    minDate: LocalDate = events.values.flatten().minByOrNull { it.start }?.start?.toLocalDate() ?: LocalDate.now(),
+    maxDate: LocalDate = events.values.flatten().maxByOrNull { it.end }?.end?.toLocalDate() ?: LocalDate.now(),
 ) {
 
-
+    val numDate = ChronoUnit.DAYS.between(maxDate, minDate)
     var sidebarWidth by remember { mutableStateOf(0) }
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val dayWidth = (screenWidth - with(LocalDensity.current) { sidebarWidth.toDp() }) / 3
@@ -145,7 +86,8 @@ fun Schedule(
             )
             MultiDaySchedule(
                 events = events,
-                numDays = 3,
+                minDate = minDate,
+                maxDate = maxDate,
                 dayWidth = dayWidth,
                 hourHeight = hourHeight,
                 verticalScrollState = verticalScrollState
@@ -165,21 +107,22 @@ fun Schedule(
 fun SchedulePreview() {
 
     // Create a mutable copy of the sample events
-    val mutableEvents = SampleEvents.sampleEvents.toMutableList()
+    val mutableEvents = SampleEvents.sampleEventsByDay
 
     // Add the new event to the mutable list
-    mutableEvents.add(
+    mutableEvents[LocalDate.of(2024, 5, 11)]?.add(
         Event(
+            id = 1,
             name = "New Event",
             color = Color.Magenta,
-            start = LocalDateTime.now().withHour(18).withMinute(0),
-            end = LocalDateTime.now().withHour(19).withMinute(0),
+            start = LocalDateTime.of(2024, 5, 11, 4, 0,0),
+            end = LocalDateTime.of(2024, 5, 11, 6,0,0),
             description = "This is a new event."
         )
     )
 
     WeekScheduleTheme {
-        Schedule(mutableEvents)
+//        Schedule(mutableEvents)
     }
 }
 

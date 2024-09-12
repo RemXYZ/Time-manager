@@ -1,5 +1,6 @@
 package com.example.timemanager.calendarView.schedule
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
@@ -8,6 +9,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -28,22 +31,25 @@ import kotlin.math.roundToInt
 @Composable
 fun DaySchedule(
     day: LocalDate,
-    events: List<Event>,
+    events: SnapshotStateList<Event>,
     hourHeight: Dp,
     dayWidth: Dp,
     verticalScrollState: ScrollState, // Accept the shared scroll state
     eventContent: @Composable (event: Event) -> Unit = { BasicEvent(event = it) }
 ) {
+
+    val dividerColor = if (MaterialTheme.colors.isLight) Color.LightGray else Color.DarkGray
+    // Filter events for the specific day
     val dayEvents = events.filter {
         it.start.toLocalDate() == day
     }
 
+    // Sort events by start time
     val sortedEvents = dayEvents.sortedBy { it.start }
     val overlappedGroups = mutableListOf<List<Event>>()
     var currentGroup = mutableListOf<Event>()
 
-    val dividerColor = if (MaterialTheme.colors.isLight) Color.LightGray else Color.DarkGray
-
+    // Detect overlapping events
     sortedEvents.forEach { event ->
         if (currentGroup.isEmpty() || !isOverlapping(currentGroup.last(), event)) {
             if (currentGroup.isNotEmpty()) overlappedGroups.add(currentGroup)
@@ -124,11 +130,13 @@ fun DaySchedule(
 
 
 
+@SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 fun DayPreview() {
-    val sampleEvents = listOf(
+    val sampleEvents = mutableStateListOf(
         Event(
+            id = 1,
             name = "Meeting with John",
             color = Color(0xFFAFBBF2),
             start = LocalDate.now().atTime(4, 0),
@@ -136,6 +144,7 @@ fun DayPreview() {
             description = "Discuss the project"
         ),
         Event(
+            id = 2,
             name = "Lunch with Sarah",
             color = Color.Green,
             start = LocalDate.now().atTime(12, 0),
@@ -143,6 +152,7 @@ fun DayPreview() {
             description = "At the new restaurant"
         ),
         Event(
+            id = 3,
             name = "Team meeting",
             color = Color.Red,
             start = LocalDate.now().atTime(14, 0),
