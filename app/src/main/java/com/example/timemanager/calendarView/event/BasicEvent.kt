@@ -5,6 +5,7 @@
 package com.example.timemanager.calendarView.event
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,6 +25,7 @@ val EventTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 fun BasicEvent(
     event: Event,
     modifier: Modifier = Modifier,
+    onSelect: (Event) -> Unit // Callback to notify when an event is selected
 ) {
     Column(
         modifier = modifier
@@ -31,6 +33,7 @@ fun BasicEvent(
             .padding(end = 2.dp, bottom = 2.dp)
             .background(event.color, shape = RoundedCornerShape(4.dp))
             .padding(4.dp)
+            .clickable { onSelect(event) } // Make the event clickable
     ) {
         Text(
             text = "${event.start.format(EventTimeFormatter)} - ${event.end.format(

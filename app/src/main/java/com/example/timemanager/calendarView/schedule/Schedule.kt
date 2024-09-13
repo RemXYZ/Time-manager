@@ -46,18 +46,24 @@ import kotlin.math.roundToInt
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.ScrollState
+import androidx.compose.material.Text
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.example.timemanager.calendarView.event.EventTimeFormatter
 
 
 @Composable
 fun Schedule(
     events: Map<LocalDate, SnapshotStateList<Event>>,
     modifier: Modifier = Modifier,
-    eventContent: @Composable (event: Event) -> Unit = { BasicEvent(event = it) },
+    eventContent: @Composable (event: Event, onSelect: (Event) -> Unit) -> Unit = { event, onSelect -> BasicEvent(event = event, onSelect = onSelect) },
     dayHeader: @Composable (day: LocalDate) -> Unit = { BasicDayHeader(day = it) },
     minDate: LocalDate = events.values.flatten().minByOrNull { it.start }?.start?.toLocalDate() ?: LocalDate.now(),
     maxDate: LocalDate = events.values.flatten().maxByOrNull { it.end }?.end?.toLocalDate() ?: LocalDate.now(),
+    onSelectEvent: (Event) -> Unit = { }
 ) {
+//    var selectedEvent by remember { mutableStateOf<Event?>(null) }
+
 
     val numDate = ChronoUnit.DAYS.between(maxDate, minDate)
     var sidebarWidth by remember { mutableStateOf(0) }
@@ -90,9 +96,19 @@ fun Schedule(
                 maxDate = maxDate,
                 dayWidth = dayWidth,
                 hourHeight = hourHeight,
-                verticalScrollState = verticalScrollState
+                verticalScrollState = verticalScrollState,
+                onSelectEvent = onSelectEvent
             )
         }
+
+
+        // Display selected event details
+//        selectedEvent?.let {
+//            Text(
+//                text = "Selected Event: ${it.name} (${it.start.format(EventTimeFormatter)} - ${it.end.format(EventTimeFormatter)})",
+//                modifier = Modifier.padding(16.dp),
+//            )
+//        }
     }
 }
 
@@ -122,7 +138,7 @@ fun SchedulePreview() {
     )
 
     WeekScheduleTheme {
-//        Schedule(mutableEvents)
+        Schedule(mutableEvents)
     }
 }
 
